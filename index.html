@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ПІТ-37 за 2024 рік</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/script.js"></script>
+
+</head>
+<body>
+
+  <div class="info">
+    <h1>📢 ПІТ-37 ЗА 2024 РІК</h1>
+    <h2>‼️ ВАЖЛИВО!</h2>
+    <p>Усі документи мають бути надані згідно зі списком, інакше декларація не буде прийнята!</p>
+  </div>
+
+  <div class="pricing-info">
+    <h2>💰 ВАРТІСТЬ ПОСЛУГИ:</h2>
+    <ul>
+      <li>✅ Розрахунок ПІТ-37 – <span class="price">700 грн / 70 zł</span> (оплата після розрахунку)</li>
+      <li>✅ Якщо неможливо розрахувати ПІТ-11 – <span class="price">200 грн</span></li>
+      <li>✅ Якщо повернення 0 або мінусове – <span class="price">200 грн</span></li>
+    </ul>
+    <p>⏳ Документи приймаються через 7-10 днів</p>
+    <p>📬 Після розрахунку ви отримаєте підтвердження про подачу декларації в податкову.</p>
+    <p class="thanks">💙 Дякуємо, що довіряєте нам!</p>
+  </div>
+
+  <form action="/" method="POST" enctype="multipart/form-data">
+    <h2>Заповніть форму</h2>
+
+    <!-- Имя и Фамилия -->
+    <label for="surname">Прізвище:</label>
+    <input type="text" id="surname" name="surname" required
+           style="text-transform: uppercase;"
+           oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '');">
+
+    <label for="firstname">Ім’я:</label>
+    <input type="text" id="firstname" name="firstname" required
+           style="text-transform: uppercase;"
+           oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '');">
+
+    <fieldset>
+      <div>
+        <legend>Введіть PESEL/NIP:</legend>
+        
+        <label class="radio-label">
+          <input type="radio" name="id-type" value="pesel" required>
+          PESEL
+        </label>
+
+        <label class="radio-label">
+          <input type="radio" name="id-type" value="nip">
+          NIP
+        </label>
+
+        <input type="text" id="id-number" name="id-number" placeholder="Оберіть PESEL або NIP" disabled required>
+      </div>
+    </fieldset>
+
+    <label for="bank-account">Номер банківського рахунку:</label>
+    <input type="text" id="bank-account" name="bank-account" required>
+
+    <label for="bank-type">Тип банку:</label>
+    <select id="bank-type" name="bank-type">
+      <option value="polish">Польський банк</option>
+      <option value="other">Інший банк</option>
+    </select>
+
+    <div id="swift-container" style="display: none;">
+      <label for="swift-code">SWIFT-код банку:</label>
+      <input type="text" id="swift-code" name="swift-code">
+    </div>
+
+    <label for="email">Електронна пошта:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- ПІТ-11 за 2024 рік с возможностью добавления нескольких файлов -->
+    <fieldset>
+      <div>
+        <legend>ПІТ-11 за 2024 рік:</legend>
+        <div id="pit-11-container">
+          <div class="file-input-wrapper">
+            <input type="file" name="pit-11[]" accept=".pdf, .jpg, .png">
+            <button type="button" class="remove-file-btn">Видалити файл</button>
+          </div>
+        </div>
+        <button type="button" id="add-pit11-file">Добавити ще один файл</button>
+      </div>
+    </fieldset>
+
+    <!-- ПІТ-11 або ПІТ-37 за 2023 рік с возможностью добавления нескольких файлов -->
+    <fieldset>
+      <div>
+        <legend>ПІТ-11 або ПІТ-37 за 2023 рік:</legend>
+        <label>
+          <input type="checkbox" id="pit-2023-check">
+          Працював офіційно у 2023 році
+        </label>
+        <div id="pit-2023-container" style="display: none;">
+          <div id="pit-2023-files">
+            <div class="file-input-wrapper">
+              <input type="file" name="pit-2023[]" accept=".pdf, .jpg, .png">
+              <button type="button" class="remove-file-btn">Видалити файл</button>
+            </div>
+          </div>
+          <button type="button" id="add-pit2023-file">Добавити ще один файл</button>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Блок адреса -->
+    <label for="residence-country">Адреса проживання (На момент складання піту):</label>
+    <select id="residence-country" name="residence-country" required>
+      <option value="">Оберіть країну</option>
+      <option value="ukraine">Україна</option>
+      <option value="poland">Польща</option>
+      <option value="other">Інша країна</option>
+    </select>
+
+    <!-- Адреса для України -->
+    <div id="ukraine-address" style="display: none;">
+      <label for="ukraine-region">Область:</label>
+      <input type="text" id="ukraine-region" name="ukraine-region" required>
+      
+      <label for="ukraine-district">Район:</label>
+      <input type="text" id="ukraine-district" name="ukraine-district" required>
+      
+      <label for="ukraine-city">Місто-Село:</label>
+      <input type="text" id="ukraine-city" name="ukraine-city" required>
+      
+      <label for="ukraine-street">Вулиця (за наявності):</label>
+      <input type="text" id="ukraine-street" name="ukraine-street">
+      
+      <label for="ukraine-house">Номер будинку:</label>
+      <input type="text" id="ukraine-house" name="ukraine-house" required>
+      
+      <label for="ukraine-apartment">Номер квартири (за наявності):</label>
+      <input type="text" id="ukraine-apartment" name="ukraine-apartment">
+      
+      <label for="ukraine-postal">Поштовий індекс:</label>
+      <input type="text" id="ukraine-postal" name="ukraine-postal" pattern="\d+" required>
+    </div>
+
+    <!-- Адреса для Польщі -->
+    <div id="poland-address" style="display: none;">
+      <label for="poland-wojewodztwo">Województwo:</label>
+      <input type="text" id="poland-wojewodztwo" name="poland-wojewodztwo" required>
+      
+      <label for="poland-powiant">Powiant:</label>
+      <input type="text" id="poland-powiant" name="poland-powiant" required>
+      
+      <label for="poland-gmina">Gmina (не обов’язково):</label>
+      <input type="text" id="poland-gmina" name="poland-gmina">
+      
+      <label for="poland-city">Miejscowość:</label>
+      <input type="text" id="poland-city" name="poland-city" required>
+      
+      <label for="poland-street">Ulica:</label>
+      <input type="text" id="poland-street" name="poland-street" required>
+      
+      <label for="poland-house">Numer domu:</label>
+      <input type="text" id="poland-house" name="poland-house" required>
+      
+      <label for="poland-apartment">Numer lokalu:</label>
+      <input type="text" id="poland-apartment" name="poland-apartment" required>
+      
+      <label for="poland-postal">Kod pocztowy:</label>
+      <input type="text" id="poland-postal" name="poland-postal" pattern="\d+" required>
+    </div>
+
+    <!-- Адреса для іншої країни -->
+    <div id="other-address" style="display: none;">
+      <label for="other-address-input">Адреса проживання:</label>
+      <input type="text" id="other-address-input" name="other-address-input" required>
+      
+      <label for="other-postal">Поштовий індекс:</label>
+      <input type="text" id="other-postal" name="other-postal" pattern="\d+" required>
+    </div>
+
+    <button type="submit">Відправити</button>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("uploadForm");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();  // Предотвращаем отправку формы по умолчанию
+
+        const formData = new FormData(form);  // Создаем объект FormData для отправки файлов
+
+        // Отправка данных на сервер
+        fetch("http://localhost:3000/upload", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Успех:", data);
+          alert("Файлы успешно загружены!");
+        })
+        .catch((error) => {
+          console.error("Ошибка:", error);
+          alert("Произошла ошибка при загрузке файлов.");
+        });
+      });
+    });
+  </script>
+</body>
+</html>
